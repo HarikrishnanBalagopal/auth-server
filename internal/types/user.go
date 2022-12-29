@@ -3,6 +3,7 @@ package types
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -98,6 +99,8 @@ var (
 )
 
 func NewUser(username, email string, isServiceAccount bool, password string) (User, error) {
+	username = NormalizeEmail(username)
+	email = NormalizeEmail(email)
 	if username == "" || email == "" {
 		return User{}, fmt.Errorf("the username and email cannot be empty")
 	}
@@ -126,12 +129,17 @@ func NewUserFromUserInfo(userInfo UserInfo, isServiceAccount bool) (User, error)
 	if userInfo.Email == nil {
 		return User{}, fmt.Errorf("the email cannot be empty")
 	}
-	id := *userInfo.Email
+	normalizedEmail := NormalizeEmail(*userInfo.Email)
+	userInfo.Email = &normalizedEmail
 	return User{
-		Id:               id,
+		Id:               normalizedEmail,
 		UserInfo:         userInfo,
 		IsServiceAccount: isServiceAccount,
 	}, nil
+}
+
+func NormalizeEmail(s string) string {
+	return strings.ToLower(strings.TrimSpace(s))
 }
 
 // GetRulesAsAttrs flattens and returns the rules of the role as a map suitable for creating an authz server role
