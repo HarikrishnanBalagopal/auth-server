@@ -95,6 +95,9 @@ func NewDatabase() (IDatabase, error) {
 				return fs, fmt.Errorf("failed to create a user object for the user %+v in the config. Error: %w", configUser, err)
 			}
 			user.RoleIds = configUser.RoleIds
+			if user.NumFailedAttempts < 0 {
+				return fs, fmt.Errorf("failed to create the user, the number of failed login attempts cannot be a negative number. Error: %w", err)
+			}
 			logrus.Debugf("checking if the user exists: %+v", user)
 			if _, err := fs.ReadUser(user.Id); err != nil {
 				if !errors.Is(err, types.ErrNotFound) {

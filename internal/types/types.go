@@ -73,11 +73,12 @@ type IdentityProvider struct {
 
 // ConfigUser is for reading from the config file.
 type ConfigUser struct {
-	Id               string   `json:"id" mapstructure:"id"`
-	Email            string   `json:"email" mapstructure:"email"`
-	Password         string   `json:"password" mapstructure:"password"`
-	RoleIds          []string `json:"role-ids" mapstructure:"role-ids"`
-	IsServiceAccount bool     `json:"is-service-account" mapstructure:"is-service-account"`
+	Id                string   `json:"id" mapstructure:"id"`
+	Email             string   `json:"email" mapstructure:"email"`
+	Password          string   `json:"password" mapstructure:"password"`
+	RoleIds           []string `json:"role-ids" mapstructure:"role-ids"`
+	IsServiceAccount  bool     `json:"is-service-account" mapstructure:"is-service-account"`
+	NumFailedAttempts int      `json:"num-failed-attempts" mapstructure:"num-failed-attempts"`
 }
 
 // M2kClientBasicAuth returns the encoded basic auth using client id and secret

@@ -209,9 +209,15 @@ func HandleUpdateUser(w http.ResponseWriter, r *http.Request) {
 		sendErrorJSON(w, "failed to find the user", http.StatusNotFound)
 		return
 	}
+	if userReq.NumFailedAttempts < 0 {
+		logrus.Errorf("failed to update the user, cannot set the number of failed login attempts to a negative number")
+		sendErrorJSON(w, "cannot set the number of failed login attempts to a negative number", http.StatusBadRequest)
+		return
+	}
 	user.UpdatedAt = cast.ToString(time.Now().Unix())
 	user.Email = &userReq.Email
 	user.IsServiceAccount = userReq.IsServiceAccount
+	user.NumFailedAttempts = userReq.NumFailedAttempts
 	if user.IsServiceAccount {
 		user.Password = nil
 	}
