@@ -11,9 +11,10 @@ import (
 
 func GetOIDCInfo() types.OIDCInfo {
 	return types.OIDCInfo{
-		JwksURI:          common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetJwksEndpointPath(),
-		TokenEndpoint:    common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetTokenEndpointPath(),
-		UserinfoEndpoint: common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetUserInfoEndpointPath(),
+		JwksURI:            common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetJwksEndpointPath(),
+		TokenEndpoint:      common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetTokenEndpointPath(),
+		UserinfoEndpoint:   common.Config.CurrentHost + common.Config.AuthServerBasePath + common.GetUserInfoEndpointPath(),
+		EndSessionEndpoint: common.Config.CurrentHost + common.Config.AuthServerBasePath + common.LOGOUT_PATH,
 	}
 }
 
